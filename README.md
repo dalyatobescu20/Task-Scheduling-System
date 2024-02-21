@@ -1,46 +1,32 @@
+# Task Scheduling System
 
-//Tobescu Dalya-Alexandra 331CB//
-//Tema 2 APD//
+The purpose of this project is to implement a task scheduling system in a datacenter using Java Threads.
 
-Pasii implementarii mele pentru fiecare clasa:
+# Implementation Steps
+## MyDispatcher Class:
 
-1. Clasa MyDispatcher:
-    
-    -->am creat o coada cu prioritate de tipul Task pentru fiecare Host
-    -->in functie de fiecare tip de algortim de scheduling, am adaugat 
-       task-urile in vectorul de task-uri al fiecarui host:
-        - pentru RoundRobin, am adaugat task-urile in ordinea in care au fost citite,
-          folosind formula (lastAssignedIndex + 1) % hosts.size();
-        - pentru ShortestQueue, am adaugat task-urile in host-ul cu coada de task-uri
-          cea mai mica, folosind functia getQueueSize();
-        -pentru SizeIntervalTaskAssigment, am adaugat in host-ul corespunzator
-         tipului de task (small, medium, long).
-        -pentru LeastWorkLeft, am adaugat task-urile in host-ul cu cea mai mica
-          munca ramasa de executat, folosind functia getWorkLeft();
+1. Created a priority queue of type Task for each Host.
+2. Depending on the scheduling algorithm:
+    - For RoundRobin, tasks were added to the task vector of each host in the order they were read, using the formula (lastAssignedIndex + 1) % hosts.size().
+    - For ShortestQueue, tasks were added to the host with the smallest task queue, using the getQueueSize() function.
+    - For SizeIntervalTaskAssigment, tasks were added to the corresponding host type (small, medium, long).
+    - For LeastWorkLeft, tasks were added to the host with the least remaining work to execute, using the getWorkLeft() function.
 
-2. Clasa MyHost:
-    -->am creat o PriorityBlockingQueue de tipul Task pentru a retine task-urile
-       ce trebuie executate
-    
-    -->metoda run():
-       -->cat timp sunt task-uri de executat si cat timp sunt task-uri in coada
-          de task-uri, se extrage un task din coada si se executa. Daca avem mai
-          multe task-uri in coada, verificam daca gasim un task cu prioritatea
-          mai mare decat cea a task-ului curent si task-ul curent este preemtabil,
-          iar daca gasim, il executam pe acela si il adaugam inapoi in coada pe 
-          task-ul curent.
-    -->metoda addTask():
-       -->adauga un task in coada de task-uri a host-ului
-    -->metoda getQueueSize():
-          -->returneaza dimensiunea cozii de task-uri a host-ului(adaug + 1 pentru
-             task-ul curent)
-    -->metoda getWorkLeft():
-            -->returneaza munca ramasa de executat a host-ului apeland pentru fiecare
-               task metoda getWorkLeft(adaug + 1 pentru task-ul curent)
-    -->metoda executeTask():
-            -->executa un task si scade munca ramasa de executat a host-ului
-            -->simulez executia unui task prin apelarea metodei sleep() cu 1000 de milisecunde
-            -->daca munca ramasa de executat a host-ului este 0, atunci apelez metoda finish();
-    -->metoda shutDown():
-       -->seteaza variabila de tip boolean isRunning pe false pentru a opri executia
-          host-ului
+## MyHost Class:
+
+1. Created a PriorityBlockingQueue of type Task to store the tasks to be executed.
+2. Method run():
+    - As long as there are tasks to execute and tasks in the task queue, a task is extracted from the queue and executed. If there are more tasks in the queue, check if we find a task with higher priority than the current task and if the current task is preemptable, and if found, execute that task and add the current task back to the queue.
+3. Method addTask():
+    - Adds a task to the host's task queue.
+4. Method getQueueSize():
+    - Returns the size of the host's task queue (adds +1 for the current task).
+5. Method getWorkLeft():
+    - Returns the remaining work to execute for the host by calling the getWorkLeft() method for each task (adds +1 for the current task).
+6. Method executeTask():
+    - Executes a task and decreases the remaining work to execute for the host.
+    - Simulates the execution of a task by calling the sleep() method for 1000 milliseconds.
+    - If the remaining work to execute for the host is 0, then calls the finish() method.
+7. Method shutDown():
+    - Sets the boolean variable isRunning to false to stop the execution of the host.
+
