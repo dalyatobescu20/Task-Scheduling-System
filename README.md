@@ -2,6 +2,10 @@
 
 The purpose of this project is to implement a task scheduling system in a datacenter using Java Threads.
 
+We will simulate the architecture depicted in the image below. As can be seen, the system consists of two main elements. The Dispatcher (or load balancer, depicted in green in the image) has the role of fetching tasks arriving in the system (for example, from clients of the datacenter) and sending them to the nodes in the datacenter based on predefined policies. The nodes (marked in blue in the image, and whose number may vary) are responsible for executing tasks they receive in order of priority and preempting those running for more important tasks, etc. Each node in the system also has a queue in which it stores tasks to be executed later. The main goal of this project is to implement the logic for both the dispatcher and the compute nodes.
+
+<img width="620" alt="Screenshot 2024-02-21 at 21 38 28" src="https://github.com/dalyatobescu20/Task-Scheduling-System/assets/94745479/b176da0c-ded1-4a25-bc02-6cd3e8426b3e">
+
 # Implementation Steps
 ## MyDispatcher Class:
 
